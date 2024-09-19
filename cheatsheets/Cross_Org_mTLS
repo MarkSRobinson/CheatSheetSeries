@@ -1,4 +1,4 @@
-# `Topic` Cheat Sheet
+# `Cross-Organization mTLS` Cheat Sheet
 
 **Replace `Topic` with the topic you're tackling, such as `Authentication` and remove this line**
 
@@ -13,15 +13,49 @@
 
 ## Introduction
 
-Provide high level information about the topic in order to introduce it to people that do not know it.
+Many large organizations setup up mTLS to ensure that they are connecting to the right hosts. However, there is very little documentation on how to do this correctly, in a way that will support their security and operational goals.
 
-You can add pointer to external sources if needed but at least give an overview allowing a reader to continue on the CS.
+## What is mTLS?
 
-You can also add schema or diagram in any part of the CS but be sure to respect the copyright of the source file.
+## What are the public root certificate authorities?
 
-## Main Sections
+## How are certificates Validated?
 
-The main sections will vary based on the content of the cheat sheet. Generally there should be no more than half a dozen level 2 sections in the cheat sheet, with subsections created for these as required.
+## How to build a secure mTLS system
+
+### Create a Private CA
+ - Use AWS Private CA
+ - Use Step-CA
+
+### Create a Root certificate
+ - Validity period of 7 years
+ - Refer to X for key-length
+ - Lock it up in an HSM
+ - Lock it to your domain with Name Constraint
+
+### Create intermediate certificates
+ - Should have a lifetime of 3 years
+
+### Generate leaf certs
+ - Short lived
+ - Max 90 days life-time
+ - Use a tool like ACME/Certbot to keep them updated
+
+## Distributing root certs
+
+- Put them on the web
+-- URL certs.<domain>.<tld>/certs.zip
+   These certs are valid and can be used to provide signing
+-- URL certs.<domain>.<tld>/old-certs.zip
+   These certs are expired/retired and are only of interest for historical reasons.
+
+## Rotating certs
+
+Certificates must rotated out periodically. Place new root certs into <Location> for at least 6 months before using them to issue new certificates.
+
+On the flip-side, clients must update their root-CA DB periodically. They must fetch a new bundle at least once in any given 90 day period. The root bundle may only be cache for 30 days.
+
+Root bundles may not be emailed.
 
 ## References
 
