@@ -32,6 +32,7 @@ Many large organizations setup up mTLS to ensure that they are connecting to the
  - Refer to X for key-length
  - Lock it up in an HSM
  - Lock it to your domain with Name Constraint
+ - Each root CA must have a single name constraint
 
 ### Create intermediate certificates
  - Should have a lifetime of 3 years
