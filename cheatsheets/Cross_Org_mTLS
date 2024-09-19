@@ -45,9 +45,10 @@ Many large organizations setup up mTLS to ensure that they are connecting to the
 
 - Put them on the web
 -- URL certs.<domain>.<tld>/certs.zip
-   These certs are valid and can be used to provide signing
+   These certs are valid and can be used to provide signing. These URLs are protected with regular TLS certificates signed by public CAs
 -- URL certs.<domain>.<tld>/old-certs.zip
    These certs are expired/retired and are only of interest for historical reasons.
+-- URL certs-private.<domain>.<tld>/certs.zip - Same as certs.<domain>.<tld>/certs.zip but TLS cert is signed by one of the certs in the bundle.
 
 ## Rotating certs
 
@@ -55,7 +56,13 @@ Certificates must rotated out periodically. Place new root certs into <Location>
 
 On the flip-side, clients must update their root-CA DB periodically. They must fetch a new bundle at least once in any given 90 day period. The root bundle may only be cache for 30 days.
 
-Root bundles may not be emailed.
+Root bundles may not be emailed. Emailing certificates is a form certificate pinning (strongly discouraged) and provides a vector for attackers to disrupt your network.
+
+
+## Checklist
+
+[] Private CA for root certificates w/ HSM
+[] 
 
 ## References
 
